@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MK Architect Studio — Editorial Redesign</title>
+<style>
+:root{
+  --ink:#151515;
+  --paper:#f1f0eb;
+  --paper2:#ecebe5;
+  --stone:#a9a8a2;
+  --line:rgba(21,21,21,.18);
+  --navy:#25324f;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit}
+img{display:block;max-width:100%}
+
+/* ---------- HEADER ---------- */
+.header{
+  position:fixed;
+  z-index:100;
+  inset:0 0 auto 0;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  padding:20px 24px;
+  color:#fff;
+  mix-blend-mode:difference;
+  font-family:"Courier New",monospace;
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.header-left{
+  display:flex;
+  gap:16px;
+}
+.menu-button{
+  border:0;
+  background:none;
+  color:inherit;
+  padding:0;
+  cursor:pointer;
+  font:inherit;
+}
+.menu{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:var(--paper);
+  transform:translateY(-101%);
+  transition:transform .65s cubic-bezier(.77,0,.18,1);
+  padding:24px 28px;
+}
+.menu.open{transform:translateY(0)}
+.menu-top{
+  display:flex;
+  justify-content:space-between;
+  font-family:"Courier New",monospace;
+  font-size:9px;
+  letter-spacing:.1em;
+}
+.menu-close{
+  border:0;background:none;padding:0;cursor:pointer;
+  font:inherit;
+  letter-spacing:.1em;
+}
+.menu-grid{
+  margin-top:12vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8vw;
+}
+.menu-col small{
+  display:block;
+  margin-bottom:26px;
+  font-family:"Courier New",monospace;
+  font-size:9px;
+}
+.menu-col a{
+  display:block;
+  width:max-content;
+  font-size:clamp(36px,4.8vw,78px);
+  line-height:1.08;
+  letter-spacing:-.055em;
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;
+  height:100vh;
+  min-height:720px;
+  overflow:hidden;
+  background:#07090d;
+  color:#fff;
+}
+.hero-media{
+  position:absolute;
+  inset:-4%;
+  width:108%;
+  height:108%;
+  object-fit:cover;
+  object-position:center 48%;
+  filter:saturate(.85) contrast(1.06) brightness(.7);
+  animation:cinematic 20s cubic-bezier(.2,.7,.2,1) infinite alternate;
+  will-change:transform;
+}
+.hero-shade{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(3,5,9,.16),rgba(3,5,9,.26) 48%,rgba(3,5,9,.48)),
+    linear-gradient(90deg,rgba(0,0,0,.16),transparent 40%,rgba(0,0,0,.08));
+}
+.hero-title{
+  position:absolute;
+  z-index:3;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  margin:0;
+  white-space:nowrap;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:400;
+  font-size:clamp(58px,7vw,116px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+.hero-note{
+  position:absolute;
+  z-index:3;
+  left:24px;
+  bottom:24px;
+  max-width:300px;
+  font-size:11px;
+  line-height:1.4;
+}
+.hero-city{
+  position:absolute;
+  z-index:3;
+  right:24px;
+  bottom:24px;
+  font-family:"Courier New",monospace;
+  font-size:8px;
+  letter-spacing:.12em;
+  opacity:.55;
+}
+.hero-arrow{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  bottom:28px;
+  width:15px;
+  height:15px;
+  border-right:2px solid #fff;
+  border-bottom:2px solid #fff;
+  transform:translateX(-50%) rotate(45deg);
+  animation:bob 1.8s ease-in-out infinite;
+}
+@keyframes cinematic{
+  from{transform:scale(1.03) translate3d(-.7%,.2%,0)}
+  to{transform:scale(1.15) translate3d(1.3%,-1.2%,0)}
+}
+@keyframes bob{
+  0%,100%{transform:translate(-50%,0) rotate(45deg)}
+  50%{transform:translate(-50%,8px) rotate(45deg)}
+}
+
+/* ---------- EDITORIAL CANVAS ---------- */
+.editorial{
+  padding:76px 24px 105px;
+  background:var(--paper);
+}
+
+.editorial-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:54px;
+  padding-top:4px;
+  font-family:"Courier New",monospace;
+  font-size:10px;
+  line-height:1.2;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.editorial-grid{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  column-gap:22px;
+  row-gap:68px;
+  align-items:start;
+}
+
+/* row 1 */
+.ed-photo-a{
+  grid-column:2 / span 4;
+  min-height:270px;
+}
+.ed-copy-a{
+  grid-column:7 / span 4;
+  align-self:center;
+}
+
+/* row 2 */
+.ed-note-a{
+  grid-column:2 / span 2;
+  align-self:start;
+  padding-top:16px;
+}
+.ed-photo-b{
+  grid-column:8 / span 4;
+  min-height:310px;
+}
+
+/* row 3 */
+.ed-photo-c{
+  grid-column:2 / span 5;
+  min-height:290px;
+}
+.ed-copy-b{
+  grid-column:8 / span 4;
+  align-self:center;
+}
+
+/* row 4 */
+.ed-copy-c{
+  grid-column:2 / span 4;
+  align-self:center;
+}
+.ed-photo-d{
+  grid-column:8 / span 3;
+  min-height:390px;
+}
+
+/* row 5 */
+.ed-photo-e{
+  grid-column:2 / span 5;
+  min-height:310px;
+}
+.ed-note-b{
+  grid-column:9 / span 2;
+  align-self:end;
+  padding-bottom:12px;
+}
+
+/* row 6 */
+.ed-photo-f{
+  grid-column:5 / span 4;
+  min-height:210px;
+}
+.ed-note-c{
+  grid-column:2 / span 2;
+  align-self:end;
+  padding-bottom:6px;
+}
+
+.ed-photo{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  background:linear-gradient(135deg,#d7d6d1,#a4a39d);
+}
+
+.ed-photo.dark{
+  background:linear-gradient(135deg,#aaa9a4,#6f6e69);
+}
+
+.ed-photo::after{
+  content:"PROJECT PHOTO PLACEHOLDER";
+  position:absolute;
+  left:10px;
+  bottom:9px;
+  color:rgba(255,255,255,.82);
+  font-family:"Courier New",monospace;
+  font-size:9px;
+  line-height:1.2;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+
+.ed-copy{
+  margin:0;
+  max-width:520px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(32px,2.8vw,48px);
+  line-height:1.02;
+  letter-spacing:-.038em;
+  font-weight:400;
+}
+
+.ed-copy small{
+  display:block;
+  margin-top:18px;
+  max-width:430px;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:12px;
+  line-height:1.5;
+  letter-spacing:0;
+}
+
+.ed-note{
+  font-family:"Courier New",monospace;
+  font-size:10px;
+  line-height:1.5;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+.fade{
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);
+}
+
+.fade.in{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:1100px){
+  .editorial-grid{
+    column-gap:18px;
+    row-gap:90px;
+  }
+
+  .ed-photo-a{grid-column:1 / span 5}
+  .ed-copy-a{grid-column:7 / span 5}
+
+  .ed-note-a{grid-column:1 / span 2}
+  .ed-photo-b{grid-column:7 / span 5}
+
+  .ed-photo-c{grid-column:1 / span 6}
+  .ed-copy-b{grid-column:8 / span 5}
+
+  .ed-copy-c{grid-column:1 / span 5}
+  .ed-photo-d{grid-column:8 / span 4}
+
+  .ed-photo-e{grid-column:1 / span 6}
+  .ed-note-b{grid-column:9 / span 3}
+
+  .ed-photo-f{grid-column:5 / span 5}
+  .ed-note-c{grid-column:1 / span 2}
+}
+
+@media(max-width:760px){
+  .editorial{
+    padding:74px 18px 110px;
+  }
+
+  .editorial-top{
+    margin-bottom:54px;
+  }
+
+  .editorial-grid{
+    grid-template-columns:1fr;
+    row-gap:54px;
+  }
+
+  .ed-photo-a,
+  .ed-copy-a,
+  .ed-note-a,
+  .ed-photo-b,
+  .ed-photo-c,
+  .ed-copy-b,
+  .ed-copy-c,
+  .ed-photo-d,
+  .ed-photo-e,
+  .ed-note-b,
+  .ed-photo-f,
+  .ed-note-c{
+    grid-column:1;
+  }
+
+  .ed-photo-a,
+  .ed-photo-b,
+  .ed-photo-c,
+  .ed-photo-d,
+  .ed-photo-e,
+  .ed-photo-f{
+    min-height:58vw;
+  }
+
+  .ed-photo-d{
+    min-height:86vw;
+  }
+
+  .ed-copy{
+    font-size:clamp(32px,9vw,48px);
+    max-width:92%;
+  }
+
+  .ed-note-a,
+  .ed-note-b,
+  .ed-note-c{
+    padding:0;
+  }
+}
+
+/* ---------- PROJECT STORY ---------- */
+.project-story{
+  padding:78px 24px 105px;
+  background:#fff;
+}
+.story-head{
+  display:grid;
+  grid-template-columns:140px 1fr;
+  gap:4vw;
+  margin-bottom:36px;
+}
+.kicker{
+  font-family:"Courier New",monospace;
+  font-size:8px;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.story-head h2{
+  margin:0;
+  max-width:900px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(42px,4.6vw,76px);
+  line-height:.98;
+  font-weight:400;
+  letter-spacing:-.055em;
+}
+.project-pair{
+  display:grid;
+  grid-template-columns:1.18fr .82fr;
+  gap:2px;
+  min-height:62vh;
+}
+.project-pair .photo{
+  position:relative;
+  inset:auto;
+  width:auto;
+  height:auto;
+  min-height:62vh;
+}
+.project-copy{
+  display:grid;
+  grid-template-columns:140px 1fr 1fr;
+  gap:4vw;
+  padding-top:22px;
+}
+.project-copy h3{
+  margin:0;
+  font-size:clamp(34px,4vw,66px);
+  line-height:.95;
+  font-weight:400;
+  letter-spacing:-.05em;
+}
+.project-copy p{
+  margin:0;
+  max-width:520px;
+  font-size:13px;
+  line-height:1.6;
+}
+.status{color:var(--navy)}
+
+/* ---------- PROJECT INDEX ---------- */
+.index{
+  padding:82px 24px 105px;
+  background:var(--paper);
+}
+.index-head{
+  display:flex;
+  justify-content:space-between;
+  padding-bottom:18px;
+  font-family:"Courier New",monospace;
+  font-size:10px;
+}
+.row{
+  display:grid;
+  grid-template-columns:50px minmax(260px,1.2fr) 1fr auto;
+  align-items:baseline;
+  gap:20px;
+  padding:15px 0;
+  border-top:1px solid var(--ink);
+}
+.row:last-child{border-bottom:1px solid var(--ink)}
+.row-no,.row-type,.row-status{
+  font-family:"Courier New",monospace;
+  font-size:10px;
+}
+.row-name{
+  font-size:clamp(22px,2.2vw,38px);
+  letter-spacing:-.035em;
+}
+.row-status{text-align:right}
+
+/* ---------- STUDIO BLACK ---------- */
+.studio{
+  min-height:100vh;
+  padding:110px 24px;
+  background:#111;
+  color:#fff;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8vw;
+}
+.studio-quote{
+  margin:0;
+  font-size:clamp(48px,6vw,98px);
+  line-height:.98;
+  letter-spacing:-.055em;
+  font-weight:400;
+}
+.author{
+  margin-top:20px;
+  font-family:"Courier New",monospace;
+  font-size:8px;
+  opacity:.52;
+}
+.services{
+  align-self:center;
+}
+.service{
+  display:grid;
+  grid-template-columns:46px 1fr;
+  gap:18px;
+  padding:22px 0;
+  border-top:1px solid rgba(255,255,255,.3);
+}
+.service:last-of-type{border-bottom:1px solid rgba(255,255,255,.3)}
+.service span{
+  font-family:"Courier New",monospace;
+  font-size:8px;
+  opacity:.5;
+}
+.service strong{
+  font-size:clamp(24px,2.5vw,40px);
+  font-weight:400;
+}
+.studio-text{
+  margin-top:34px;
+  max-width:620px;
+  font-size:13px;
+  line-height:1.6;
+  color:rgba(255,255,255,.62);
+}
+
+/* ---------- INTERIOR ---------- */
+.interior{
+  padding:82px 24px 105px;
+  background:var(--paper);
+}
+.interior-grid{
+  display:grid;
+  grid-template-columns:140px 1fr 1fr;
+  gap:4vw;
+}
+.addr-col{border-top:1px solid var(--ink)}
+.addr{
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+}
+
+/* ---------- CONTACT ---------- */
+.contact{
+  position:relative;
+  min-height:100vh;
+  color:#fff;
+  background:linear-gradient(135deg,#282828,#111);
+  padding:110px 24px 30px;
+}
+.contact::after{
+  content:"FULL-BLEED ARCHITECTURE IMAGE";
+  position:absolute;
+  right:22px;
+  top:22px;
+  font-family:"Courier New",monospace;
+  font-size:9px;
+  opacity:.5;
+}
+.contact-grid{
+  min-height:72vh;
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:7vw;
+  align-items:center;
+}
+.contact h2{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(60px,7vw,112px);
+  line-height:.95;
+  font-weight:400;
+  letter-spacing:-.055em;
+}
+.contact p{
+  max-width:380px;
+  font-size:11px;
+  line-height:1.5;
+  color:rgba(255,255,255,.68);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.contact-form label{display:block;margin-bottom:22px}
+.contact-form span{
+  display:block;
+  margin-bottom:7px;
+  font-family:"Courier New",monospace;
+  font-size:7px;
+}
+.contact-form input,.contact-form textarea{
+  width:100%;
+  border:1px solid rgba(255,255,255,.56);
+  background:transparent;
+  color:#fff;
+  padding:12px;
+  outline:none;
+}
+.contact-form textarea{min-height:140px;resize:vertical}
+.contact-form button{
+  border:1px solid #fff;
+  background:transparent;
+  color:#fff;
+  padding:10px 24px;
+  cursor:pointer;
+}
+.contact-form button:hover{background:#fff;color:#111}
+.contact-foot{
+  position:absolute;
+  left:24px;right:24px;bottom:22px;
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+}
+
+@media(max-width:900px){
+  .hero-title{font-size:13vw}
+  
+  
+  
+  
+  
+  .project-pair{grid-template-columns:1fr}
+  .project-copy{grid-template-columns:1fr;gap:20px}
+  .story-head{grid-template-columns:1fr;gap:22px}
+  .row{grid-template-columns:40px 1fr auto}
+  .row-type{display:none}
+  .studio{grid-template-columns:1fr;gap:80px}
+  .interior-grid{grid-template-columns:1fr;gap:34px}
+  .contact-grid{grid-template-columns:1fr;gap:60px}
+  .menu-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .header{padding:16px}
+  .header-left{gap:10px}
+  .project-story,.index,.studio,.interior,.contact{padding-left:18px;padding-right:18px}
+  .row{grid-template-columns:32px 1fr}
+  .row-status{grid-column:2;text-align:left}
+  .form-row{grid-template-columns:1fr}
+}
+
+/* V3 — spacing + legibility corrections */
+.editorial-top,
+.editorial-grid,
+.story-head,
+.project-pair,
+.project-copy,
+.index-head,
+.index > .fade,
+.interior-grid{
+  width:min(100%,1480px);
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.header{
+  font-size:10px;
+}
+
+.kicker{
+  font-size:10px;
+  line-height:1.35;
+}
+
+.project-copy .kicker,
+.row-no,
+.row-type,
+.row-status,
+.index-head{
+  font-size:10px;
+  line-height:1.4;
+}
+
+.ed-note{
+  color:rgba(21,21,21,.72);
+}
+
+.ed-photo::after{
+  font-size:9px;
+  letter-spacing:.03em;
+}
+
+.project-pair .photo::after{
+  font-size:9px;
+}
+
+.story-head{
+  align-items:start;
+}
+
+.project-story{
+  overflow:hidden;
+}
+
+.project-pair{
+  margin-top:0;
+}
+
+.project-copy{
+  margin-top:0;
+}
+
+@media(min-width:1500px){
+  .editorial-grid{
+    row-gap:74px;
+  }
+  .ed-photo-a{min-height:290px}
+  .ed-photo-b{min-height:330px}
+  .ed-photo-c{min-height:300px}
+  .ed-photo-d{min-height:410px}
+  .ed-photo-e{min-height:320px}
+  .ed-photo-f{min-height:220px}
+}
+
+@media(max-width:760px){
+  .editorial-grid{
+    row-gap:38px;
+  }
+  .editorial-top{
+    font-size:9px;
+  }
+  .ed-note{
+    font-size:9px;
+  }
+  .kicker,
+  .project-copy .kicker,
+  .row-no,
+  .row-type,
+  .row-status,
+  .index-head{
+    font-size:9px;
+  }
+}
+
+
+/* V4 — featured project placeholder fix */
+.project-story{
+  padding-top:64px;
+  padding-bottom:88px;
+}
+
+.story-head{
+  margin-bottom:28px;
+}
+
+.project-pair{
+  min-height:0;
+  height:min(58vw,640px);
+  max-height:640px;
+  background:#deddd8;
+  overflow:hidden;
+}
+
+.project-placeholder{
+  position:relative;
+  min-height:0;
+  height:100%;
+  overflow:hidden;
+}
+
+.project-placeholder-main{
+  background:
+    linear-gradient(135deg,#d4d3ce 0%,#b6b5b0 55%,#9a9994 100%);
+}
+
+.project-placeholder-side{
+  background:
+    linear-gradient(135deg,#aaa9a4 0%,#8b8a85 55%,#696864 100%);
+}
+
+.project-placeholder::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.08),transparent 28%),
+    linear-gradient(180deg,transparent 70%,rgba(0,0,0,.06));
+}
+
+.project-placeholder::after{
+  content:"PROJECT PHOTO PLACEHOLDER";
+  position:absolute;
+  left:12px;
+  bottom:11px;
+  font-family:"Courier New",monospace;
+  font-size:10px;
+  line-height:1;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.88);
+  white-space:nowrap;
+}
+
+.project-copy{
+  padding-top:24px;
+}
+
+.project-copy .kicker{
+  color:rgba(21,21,21,.7);
+}
+
+@media(max-width:900px){
+  .project-pair{
+    height:auto;
+    max-height:none;
+  }
+  .project-placeholder{
+    min-height:58vw;
+  }
+}
+
+@media(max-width:560px){
+  .project-story{
+    padding-top:48px;
+    padding-bottom:72px;
+  }
+
+  .story-head{
+    margin-bottom:24px;
+  }
+
+  .project-placeholder{
+    min-height:72vw;
+  }
+}
+
+
+/* V5 — populated image system */
+.ed-photo{
+  margin:0;
+  position:relative;
+  overflow:hidden;
+  background:#d6d5d0;
+}
+.ed-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(.72) contrast(1.02);
+  transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
+}
+.ed-photo:hover img{transform:scale(1.025)}
+.ed-photo::after{display:none}
+.ed-photo figcaption,
+.project-image figcaption{
+  position:absolute;
+  z-index:2;
+  left:10px;
+  bottom:9px;
+  margin:0;
+  padding:4px 6px;
+  background:rgba(18,18,18,.72);
+  color:#fff;
+  font-family:"Courier New",monospace;
+  font-size:8px;
+  line-height:1.1;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.project-pair{background:transparent}
+.project-image{
+  margin:0;
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#d4d3ce;
+}
+.project-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(.72) contrast(1.02);
+  transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
+}
+.project-image:hover img{transform:scale(1.018)}
+.project-image-main img{object-position:center 52%}
+.project-image-side img{object-position:center center}
+
+@media(max-width:900px){
+  .project-image{min-height:58vw}
+}
+@media(max-width:560px){
+  .ed-photo figcaption,
+  .project-image figcaption{font-size:7px}
+  .project-image{min-height:72vw}
+}
+
+</style>
+</head>
+<body>
+<!--
+IMAGE NOTES
+ACTUAL MK IMAGE = image currently used on mkarchistudio.com
+CONCEPT IMAGE = temporary reference image, not an MK project photograph
+Replace concept images with client-approved photography before launch.
+-->
+
+<header class="header">
+  <div class="header-left">
+    <a href="#projects">PROJECTS</a>
+    <a href="#studio">STUDIO</a>
+  </div>
+  <button class="menu-button" id="menuOpen">MENU</button>
+</header>
+
+<div class="menu" id="menu">
+  <div class="menu-top">
+    <span>MK ARCHITECT STUDIO</span>
+    <button class="menu-close" id="menuClose">CLOSE</button>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-col">
+      <small>PROJECTS</small>
+      <a href="#projects">Multi-family</a>
+      <a href="#projects">Education · School</a>
+      <a href="#projects">Interior Fitout</a>
+      <a href="#projects">Warehouse</a>
+      <a href="#projects">Single Family</a>
+    </div>
+    <div class="menu-col">
+      <small>STUDIO</small>
+      <a href="#studio">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <img
+    class="hero-media"
+    src="https://images.unsplash.com/photo-1767749605442-a30dc1a1021c?auto=format&fit=crop&fm=jpg&q=82&w=2600"
+    alt="New York skyline at night"
+  >
+  <div class="hero-shade"></div>
+  <h1 class="hero-title">MK Architect Studio</h1>
+  <div class="hero-note">Simplicity is the ultimate sophistication.</div>
+  <div class="hero-city">NEW YORK · NIGHT</div>
+  <div class="hero-arrow"></div>
+</section>
+
+<section class="editorial" id="studio">
+  <div class="editorial-top">
+    <span>MK ARCHITECT STUDIO</span>
+    <span>NEW YORK</span>
+  </div>
+
+  <div class="editorial-grid">
+
+    <figure class="ed-photo ed-photo-a fade">
+  <img src="https://images.squarespace-cdn.com/content/v1/6578b7b17e13336d88361b24/1702503715388-PQFZFQFOX5AL0GZMDII4/FRONT%2Bweb1.jpg" alt="MK Architect Studio residential project rendering">
+  <figcaption>ACTUAL MK IMAGE · RESIDENTIAL</figcaption>
+</figure>
+
+    <p class="ed-copy ed-copy-a fade">
+      We design spaces that make complexity feel clear.
+      <small>Architecture · Structural Engineering · MEP · DOB Expediting</small>
+    </p>
+
+    <div class="ed-note ed-note-a fade">
+      STUDIO · 2026<br>
+      NEW YORK
+    </div>
+
+    <figure class="ed-photo dark ed-photo-b fade">
+  <img src="https://images.squarespace-cdn.com/content/v1/6578b7b17e13336d88361b24/1743179476619-1SGG7GM0UO2Q86CZ5LLG/unsplash-image-JI01fn0U7Cg.jpg" alt="Architectural facade image used on MK Architect Studio website">
+  <figcaption>ACTUAL MK WEBSITE IMAGE · FACADE</figcaption>
+</figure>
+
+    <figure class="ed-photo ed-photo-c fade">
+  <img src="https://images.unsplash.com/photo-1574958269340-fa927503f3dd?auto=format&fit=crop&fm=jpg&q=80&w=2200" alt="Concept image for education architecture">
+  <figcaption>CONCEPT IMAGE · EDUCATION</figcaption>
+</figure>
+
+    <p class="ed-copy ed-copy-b fade">
+      One multidisciplinary team, from first drawing to final approval.
+      <small>Reliable coordination. Clear communication. Built around the client’s vision.</small>
+    </p>
+
+    <p class="ed-copy ed-copy-c fade">
+      Architecture that speaks through proportion, detail and use.
+      <small>Less decoration. More clarity.</small>
+    </p>
+
+    <figure class="ed-photo ed-photo-d fade">
+  <img src="https://images.unsplash.com/photo-1757275871420-dff1e757d8a3?auto=format&fit=crop&fm=jpg&q=80&w=2200" alt="Concept image for multifamily residential architecture">
+  <figcaption>CONCEPT IMAGE · MULTI-FAMILY</figcaption>
+</figure>
+
+    <figure class="ed-photo dark ed-photo-e fade">
+  <img src="https://images.unsplash.com/photo-1758788701810-1b2200639799?auto=format&fit=crop&fm=jpg&q=80&w=2200" alt="Concept image for interior architecture">
+  <figcaption>CONCEPT IMAGE · INTERIOR</figcaption>
+</figure>
+
+    <div class="ed-note ed-note-b fade">
+      BUILT WITH<br>
+      QUIET AUTHORITY
+    </div>
+
+    <div class="ed-note ed-note-c fade">
+      PROJECTS ↓
+    </div>
+
+    <figure class="ed-photo ed-photo-f fade">
+  <img src="https://images.unsplash.com/photo-1758789667762-56175fe4601c?auto=format&fit=crop&fm=jpg&q=80&w=2200" alt="Concept image for warehouse architecture">
+  <figcaption>CONCEPT IMAGE · WAREHOUSE</figcaption>
+</figure>
+
+  </div>
+</section>
+
+<section class="project-story" id="projects">
+  <div class="story-head fade">
+    <div class="kicker">
+      (01) FEATURED PROJECT<br><br>
+      <span class="status">UNDER CONSTRUCTION</span><br>
+      PORT CHESTER, NY
+    </div>
+    <h2>229 Willett Ave</h2>
+  </div>
+
+  <div class="project-pair fade">
+  <figure class="project-image project-image-main">
+    <img src="https://images.squarespace-cdn.com/content/v1/6578b7b17e13336d88361b24/1702503715388-PQFZFQFOX5AL0GZMDII4/FRONT%2Bweb1.jpg" alt="229 Willett Ave residential rendering">
+    <figcaption>ACTUAL MK IMAGE · 229 WILLETT AVE</figcaption>
+  </figure>
+
+  <figure class="project-image project-image-side">
+    <img src="https://images.squarespace-cdn.com/content/v1/6578b7b17e13336d88361b24/1743179476619-1SGG7GM0UO2Q86CZ5LLG/unsplash-image-JI01fn0U7Cg.jpg" alt="Architectural facade detail">
+    <figcaption>ACTUAL MK WEBSITE IMAGE · DETAIL</figcaption>
+  </figure>
+</div>
+
+  <div class="project-copy fade">
+    <div class="kicker">
+      <span class="status">Under Construction</span><br>
+      Multi-family · Port Chester, NY
+    </div>
+    <h3>100 units.<br>Approx. 140,000 SF.</h3>
+    <p>
+      This six-story multifamily building represents a significant addition to the area's residential landscape.
+      Our firm provided comprehensive architectural services for the project.
+    </p>
+  </div>
+</section>
+
+<section class="index">
+  <div class="index-head fade"><span>PROJECTS</span><span>09</span></div>
+  <div class="fade">
+    <div class="row"><span class="row-no">(01)</span><span class="row-name">229 Willett Ave</span><span class="row-type">Multi-family · Port Chester, NY</span><span class="row-status status">Under Construction</span></div>
+    <div class="row"><span class="row-no">(02)</span><span class="row-name">42-50 65th Pl</span><span class="row-type">Multi-family</span><span class="row-status">Completed 2025</span></div>
+    <div class="row"><span class="row-no">(03)</span><span class="row-name">91-01 Northern Blvd</span><span class="row-type">Planet Fitness</span><span class="row-status">Completed 2024</span></div>
+    <div class="row"><span class="row-no">(04)</span><span class="row-name">146-70 Bayside Ave</span><span class="row-type">Education · Flushing, NY</span><span class="row-status status">Bidding</span></div>
+    <div class="row"><span class="row-no">(05)</span><span class="row-name">435 West 238th St</span><span class="row-type"></span><span class="row-status">Completed 2024</span></div>
+    <div class="row"><span class="row-no">(06)</span><span class="row-name">230-79 Rockaway Blvd</span><span class="row-type">Warehouse</span><span class="row-status">Completed 2024</span></div>
+    <div class="row"><span class="row-no">(07)</span><span class="row-name">1 Bradford Rd</span><span class="row-type">School</span><span class="row-status">Completed 2024</span></div>
+    <div class="row"><span class="row-no">(08)</span><span class="row-name">160 Stanley Ave</span><span class="row-type">Multi-family · Yonkers, NY</span><span class="row-status status">Municipal approval</span></div>
+    <div class="row"><span class="row-no">(09)</span><span class="row-name">13 Hemlock Cir</span><span class="row-type">Single Family · White Plains, NY</span><span class="row-status status">Municipal Approval</span></div>
+  </div>
+</section>
+
+<section class="studio">
+  <div class="fade">
+    <div class="kicker" style="margin-bottom:38px">(02) STUDIO</div>
+    <h2 class="studio-quote">Simplicity is the ultimate sophistication.</h2>
+    <div class="author">LEONARDO DA VINCI</div>
+  </div>
+
+  <div class="services fade">
+    <div class="service"><span>(01)</span><strong>Architect</strong></div>
+    <div class="service"><span>(02)</span><strong>Structural Engineers</strong></div>
+    <div class="service"><span>(03)</span><strong>MEP Engineers</strong></div>
+    <div class="service"><span>(04)</span><strong>DOB Expediter</strong></div>
+
+    <p class="studio-text">
+      MK Architect Studio is a multidisciplinary team of architect, structural and MEP engineers, and a DOB expediter.
+      Launched in 2023, the studio prioritizes reliable, high-quality results, clear communication, deadlines and each client's vision.
+    </p>
+  </div>
+</section>
+
+<section class="interior">
+  <div class="interior-grid fade">
+    <div>
+      <div class="kicker">(03) INTERIOR RENOVATIONS</div>
+      <div style="margin-top:16px;color:var(--navy);font-size:11px">Ongoing</div>
+    </div>
+
+    <div class="addr-col">
+      <div class="addr">53 W. 53rd St 74 New York</div>
+      <div class="addr">355 Huguenot St New Rochelle</div>
+      <div class="addr">57 Bond St 2W New York</div>
+      <div class="addr">300 W. 23rd St 18A, 18M New York</div>
+    </div>
+
+    <div class="addr-col">
+      <div class="addr">12 Meadow Way White Plains</div>
+      <div class="addr">130 Beekman St New York</div>
+      <div class="addr">43 W. 64th St 5B New York</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div class="fade">
+      <div class="kicker" style="margin-bottom:30px">CONTACT</div>
+      <h2>Contact Us</h2>
+      <p>
+        Reach out and let us know about your inquiries or concerns.<br><br>
+        Email: info@mkarchistudio.com
+      </p>
+    </div>
+
+    <form class="contact-form fade" onsubmit="event.preventDefault();location.href='mailto:info@mkarchistudio.com'">
+      <div class="form-row">
+        <label><span>First Name (required)</span><input type="text" required></label>
+        <label><span>Last Name (required)</span><input type="text" required></label>
+      </div>
+      <label><span>Email (required)</span><input type="email" required></label>
+      <label><span>Message (required)</span><textarea required></textarea></label>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <div class="contact-foot">
+    <span>MK Architect Studio</span>
+    <span>info@mkarchistudio.com</span>
+  </div>
+</section>
+
+<script>
+const menu = document.getElementById('menu');
+document.getElementById('menuOpen').addEventListener('click',()=>menu.classList.add('open'));
+document.getElementById('menuClose').addEventListener('click',()=>menu.classList.remove('open'));
+menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  })
+},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
